@@ -37,7 +37,7 @@ public class FindNutritionalService {
 		BasicDBObject query = new BasicDBObject();
 		List<BasicDBObject> obj = new ArrayList<BasicDBObject>();
 		obj.add(new BasicDBObject("thname", java.util.regex.Pattern.compile(masterDto.getThname())));
-		obj.add(new BasicDBObject("enname", java.util.regex.Pattern.compile(masterDto.getEnname())));
+		obj.add(new BasicDBObject("enname", java.util.regex.Pattern.compile(masterDto.getThname())));
 		query.put("$or", obj);
 		
 		

@@ -1,12 +1,19 @@
 package com.dto;
 
 public class MasterDto {
+	String id;
 	String thname;
 	String enname;
 	String type;
-	CompositionsDto composition;
-	MineralsDto mineral;
-	VitaminsDto vitamin;
+	public CompositionsDto composition;
+	public MineralsDto mineral;
+	public VitaminsDto vitamin;
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public String getThname() {
 		return thname;
 	}

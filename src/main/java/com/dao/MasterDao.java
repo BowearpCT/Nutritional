@@ -4,9 +4,9 @@ public class MasterDao {
 	String thname;
 	String enname;
 	String type;
-	CompositionsDao composition;
-	MineralsDao mineral;
-	VitaminsDao vitamin;
+	public CompositionsDao composition;
+	public MineralsDao mineral;
+	public VitaminsDao vitamin;
 	public String getThname() {
 		return thname;
 	}
