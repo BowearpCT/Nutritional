@@ -12,9 +12,9 @@ import org.modelmapper.ModelMapper;
 
 import com.connect.Connect;
 import com.dao.MasterDao;
-
+import com.dto.Lookup;
 import com.dto.MasterDto;
-
+import com.dto.TypeDto;
 import com.google.common.collect.Iterables;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -25,6 +25,7 @@ import com.mongodb.client.model.Filters;
 
 @Path("/master")
 public class Master {
+	
 
 	@Path("/insert")
 	@POST
@@ -68,6 +69,8 @@ public class Master {
 		
 		MasterDto value = new MasterDto();
 		
+		
+		
 		try {
 			FindIterable<Document> data = collection.find(searchQuery);
 			value = Mapper.map(data.first(), MasterDto.class);
@@ -88,23 +91,50 @@ public class Master {
 		JsonObject message = new JsonObject();
 		Gson gson = new Gson();
 		MongoCollection<Document> collection = mongo.db.getCollection("master");
+		MongoCollection<Document> collectiontwo = mongo.db.getCollection("type");
 		ModelMapper Mapper = new ModelMapper();
 		
-		MasterDto[] value = null;
+//		Lookup lookup = new Lookup();
+//		lookup.setForm("type");
+//		lookup.setLocalField("type");
+//		lookup.setLocalField("id");
+//		lookup.setAs("type");
 		
+//		String json = gson.toJson(lookup);
+//		Document document = Document.parse(json);
+		
+		
+		MasterDto[] value = null;
+		TypeDto[] type = null;
 		try {
+			
+			FindIterable<Document> datatwo = collectiontwo.find();
 			FindIterable<Document> data = collection.find();
 			int size = Iterables.size(data);
+			int sizetype = Iterables.size(datatwo);
 			value = new MasterDto[size];
+			type = new TypeDto[sizetype];
 			int key = 0;
 			for (Document document : data) {
-				value[key++] = Mapper.map(document, MasterDto.class);
+				value[key++] = Mapper.map(document, MasterDto.class);	
+			}
+			key = 0;
+			for (Document document : datatwo) {
+				type[key++] = Mapper.map(document, TypeDto.class);
+			}
+			for (int i=0;i<value.length;i++) {
+				for (int j=0;j<type.length;j++) {
+					if(value[i].getType().equals(type[j].getId())) {
+						value[i].setType(type[j].getName());
+					}
+				}
 			}
 			message.addProperty("message", true);
 		}catch (Exception e) {
 			message.addProperty("message", false);
 		}finally {
 			message.add("data", gson.toJsonTree(value));
+//			message.add("data", gson.toJsonTree(type));
 		}
 		
 		return Response.ok(gson.toJson(message), MediaType.APPLICATION_JSON).build();
