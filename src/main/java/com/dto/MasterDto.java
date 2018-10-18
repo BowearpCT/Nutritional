@@ -1,18 +1,27 @@
 package com.dto;
 
+import org.bson.types.ObjectId;
+
 public class MasterDto {
 	String id;
+	String _id;
 	String thname;
 	String enname;
 	String type;
 	public CompositionsDto composition;
 	public MineralsDto mineral;
 	public VitaminsDto vitamin;
-	public String getId() {
-		return id;
+	public ObjectId getId() {
+		return new ObjectId(id);
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	public String get_id() {
+		return _id;
+	}
+	public void set_id(String _id) {
+		this._id = _id;
 	}
 	public String getThname() {
 		return thname;

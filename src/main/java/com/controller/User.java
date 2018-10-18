@@ -173,8 +173,8 @@ public class User {
 		BasicDBObject query = new BasicDBObject();
 			
 		List<BasicDBObject> obj = new ArrayList<BasicDBObject>();
-		obj.add(new BasicDBObject("name", userDto.getName()));
-		obj.add(new BasicDBObject("lastname", userDto.getLastname()));
+		obj.add(new BasicDBObject("username", userDto.getUsername()));
+		obj.add(new BasicDBObject("password", userDto.getPassword()));
 		query.put("$and", obj);
 				
 		UserDto[] value = null;
